@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('demografi', function (Blueprint $table) {
+        Schema::create('responden', function (Blueprint $table) {
             $table->id();
-            $table->longText('question');
-            $table->longText('slug_question');
-            $table->longText('answer');
-            $table->string('form_type');
-            $table->boolean('is_positive');
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->string('nama_mahasiswa');
+            $table->string('nim');
+            $table->string('prodi');
+            $table->enum('jenis_kelamin', ['laki-laki', 'perempuan']);
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('demografi');
+        Schema::dropIfExists('responden');
     }
 };

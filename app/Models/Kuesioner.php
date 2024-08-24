@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Kuesioner extends Model
 {
     use HasFactory;
+    protected $table = 'kuesioner';
+    protected $fillable = ['user_id', 'created_by'];
 }

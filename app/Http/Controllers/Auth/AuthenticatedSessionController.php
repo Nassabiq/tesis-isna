@@ -28,7 +28,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        $user = $request->user();
+        $redirectTo = $this->determineRedirectRoute($user->role_id);
+
+        return redirect()->intended($redirectTo);
+    }
+
+    protected function determineRedirectRoute(int $roleId): string
+    {
+        return ($roleId == 2) ? route('dashboard') : route('hasil-kuesioner');
     }
 
     /**
