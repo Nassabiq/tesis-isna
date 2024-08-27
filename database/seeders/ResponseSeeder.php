@@ -22,6 +22,10 @@ class ResponseSeeder extends Seeder
         foreach (json_decode($json, true) as $value) {
             $count = 1;
             foreach ($value as $key => $item) {
+                if ($count > 10) {
+                    $item = $this->reverseValue($item);
+                }
+
                 $response[] = [
                     'kuesioner_id' => $countData,
                     'pernyataan_kuesioner_id' => $count,
@@ -35,5 +39,19 @@ class ResponseSeeder extends Seeder
         }
 
         DB::table('responses')->insert($response);
+    }
+
+
+    function reverseValue($value)
+    {
+        $mapping = [
+            1 => 5,
+            2 => 4,
+            3 => 3,
+            4 => 2,
+            5 => 1
+        ];
+
+        return $mapping[$value];
     }
 }

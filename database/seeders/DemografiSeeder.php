@@ -56,25 +56,8 @@ class DemografiSeeder extends Seeder
             ],
 
             "Teknologi AI yang sering digunakan" => [
-                "answer" => [
-                    "Humata",
-                    "Chatgpt",
-                    "Poeai",
-                    "Slide AI",
-                    "Grammarly",
-                    "ClaudeAI",
-                    "Bing AI",
-                    "Character AI",
-                    "chatPDF",
-                    "Sider AI",
-                    "PDF.AI",
-                    "Quillbot AI",
-                    "Paperpal",
-                    "Paragraph AI",
-                    "Typing mind",
-                    "Power drill.AI"
-                ],
-                "form_type" => "checkbox",
+                "answer" => [],
+                "form_type" => "text",
             ]
         ];
 

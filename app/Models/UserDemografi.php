@@ -10,4 +10,9 @@ class UserDemografi extends Model
     use HasFactory;
     protected $table = 'user_demografi';
     protected $fillable = ['user_id', 'demografi_id', 'value_answer'];
+
+    public function demografi()
+    {
+        return $this->belongsTo(Demografi::class);
+    }
 }

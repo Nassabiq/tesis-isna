@@ -1,3 +1,4 @@
+@section('title', 'Dashboard')
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
@@ -73,7 +74,15 @@
                     <hr class="py-2">
 
                     @foreach ($demografi as $key => $item)
-                        @if ($item->form_type == 'select')
+                        @if ($item->form_type == 'text')
+                            <div class="mb-5">
+                                <label for="nama_mahasiswa" class="block mb-2 text-sm font-medium text-gray-900 ">
+                                    {{ $item->question }}
+                                </label>
+                                <input type="text" id="nama_mahasiswa" name="nama_mahasiswa"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                    placeholder="{{ $item->question }} ..." required />
+                            </div>
                         @else
                             <div class="mb-5">
                                 <input type="hidden" name="demografi_id[{{ $item->id }}]"
@@ -87,7 +96,7 @@
                                     @foreach (json_decode($item->answer) as $answer)
                                         <div class="flex items-center mb-4">
                                             <input id="{{ $item->id }}" type="{{ $item->form_type }}"
-                                                name="{{ $item->form_type == 'checkbox' ? 'demografi_answers[' . $item->id . ']' . '[]' : 'demografi_answers[' . $item->id . ']' }}"
+                                                name="{{ 'demografi_answers[' . $item->id . ']' }}"
                                                 value="{{ $answer }}"
                                                 class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 ">
                                             <label for="{{ $item->id }}"

@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Demografi;
 use App\Models\Kuesioner;
 use App\Models\PernyataanKuesioner;
 use App\Models\Response;
+use App\Models\UserDemografi;
 use App\Models\VariableKuesioner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class KuesionerController extends Controller
 {
     public function index()
     {
+        $title = 'Isi Kuesioner';
         $forms = VariableKuesioner::with('pernyataan')->get();
         return view('kuesioner.isi-kuesioner', [
-            'forms' => $forms
+            'forms' => $forms,
+            'title' => $title
         ]);
     }
 
@@ -43,7 +48,28 @@ class KuesionerController extends Controller
     }
     public function results()
     {
-        return view('kuesioner.hasil-kuesioner');
+        $title = 'Isi Kuesioner';
+        $demografi = $this->hasilDemografi();
+        return view('kuesioner.hasil-kuesioner', compact('demografi', 'title'));
+    }
+
+
+    public function hasilDemografi()
+    {
+
+        $demografi = DB::select(
+            " SELECT 
+                demografi.id, 
+                demografi.question, 
+                user_demografi.value_answer, 
+                COUNT(user_demografi.value_answer) as jumlah 
+            FROM demografi
+            JOIN user_demografi ON user_demografi.demografi_id = demografi.id
+            GROUP BY user_demografi.value_answer, demografi.question, demografi.id
+            ORDER BY demografi.id ASC; "
+        );
+        // dd($demografi);
+        return $demografi;
     }
     //
 }
