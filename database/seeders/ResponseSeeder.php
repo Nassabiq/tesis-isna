@@ -15,16 +15,15 @@ class ResponseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $kuesioner = DB::table('kuesioner')->select('id')->get();
-        $json =  File::get('database/seeders/kuesioner.json');
+        $json =  File::get('database/seeders/kuesioner-2.json');
         $countData = 1;
 
         foreach (json_decode($json, true) as $value) {
             $count = 1;
             foreach ($value as $key => $item) {
-                if ($count > 10) {
-                    $item = $this->reverseValue($item);
-                }
+                // if ($count > 10) {
+                //     $item = $this->reverseValue($item);
+                // }
 
                 $response[] = [
                     'kuesioner_id' => $countData,

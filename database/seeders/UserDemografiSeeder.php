@@ -15,7 +15,7 @@ class UserDemografiSeeder extends Seeder
     public function run(): void
     {
         $json =  File::get('database/seeders/demografi.json');
-        $countData = 1;
+        $countData = 2;
 
         foreach (json_decode($json, true) as $value) {
             $count = 1;

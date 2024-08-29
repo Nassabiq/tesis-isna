@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DemografiController;
 use App\Http\Controllers\KuesionerController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/generate-pdf-analisis', [PDFController::class, 'generatePDFAnalisis'])->name('generate-pdf-analisis');
+    Route::get('/generate-pdf-rekap', [PDFController::class, 'generatePDFRekap'])->name('generate-pdf-rekap');
 });
 
 require __DIR__ . '/auth.php';

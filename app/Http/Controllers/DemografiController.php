@@ -14,7 +14,17 @@ class DemografiController extends Controller
     public function index()
     {
         $demografi = Demografi::get();
-        return view('dashboard',  ['demografi' => $demografi]);
+
+        $user_result = [];
+        $user = UserDemografi::where('user_id', Auth::user()->id)->get();
+        foreach ($user as $value) {
+            $user_result[$value->user_id][] = $value;
+        }
+
+        return view('dashboard',  [
+            'demografi' => $demografi,
+            'user' => $user_result,
+        ]);
     }
 
     public function store(Request $request)
@@ -25,8 +35,14 @@ class DemografiController extends Controller
             'nim' => 'required',
             'jenis_kelamin' => 'required',
             'prodi' => 'required',
-            'demografi_answers.*' => 'required',
+            'demografi_answers' => 'required|array',
+            'demografi_answers.*.pengalaman-menggunakan-artificial-intelligence-ai' => 'required',
+            'demografi_answers.*.lama-penggunaan-teknologi-kecerdasan-buatan' => 'required',
+            'demografi_answers.*.intensitas-penggunaan-teknologi-kecerdasan-buatan' => 'required',
+            'demografi_answers.*.kendala-penggunaan-teknologi-kecerdasan-buatan' => 'required',
+            'demografi_answers.*.teknologi-ai-yang-sering-digunakan' => 'required',
         ]);
+        dd($request->all());
 
         Responden::create([
             'user_id' => $user_id,
@@ -44,7 +60,8 @@ class DemografiController extends Controller
             ]);
         }
 
-        dd("success");
-        return "success";
+        return redirect()->route('dashboard')->with([
+            'success' => "Data Kuesioner Berhasil disimpan!"
+        ]);
     }
 }
