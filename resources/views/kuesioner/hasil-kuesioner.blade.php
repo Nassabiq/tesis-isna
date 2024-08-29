@@ -9,7 +9,7 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="flex items-center justify-between">
+                    <div class="flex items-center justify-between ">
                         <p class="mb-2 text-2xl font-semibold text-gray-900">
                             Hasil Analisis Kuesioner
                         </p>
@@ -23,7 +23,7 @@
                                 </svg>
                                 Cetak Pdf Analisis
                             </a>
-                            <a href="{{ route('generate-pdf-rekap') }}" target="_blank"
+                            {{-- <a href="{{ route('generate-pdf-rekap') }}" target="_blank"
                                 class="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -31,7 +31,7 @@
                                         d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                                 </svg>
                                 Cetak Pdf Rekap
-                            </a>
+                            </a> --}}
                         </div>
                     </div>
                     <hr class="py-2">
@@ -42,13 +42,13 @@
 
                     <div class="relative mb-5 overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500 ">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <thead class="text-xs text-gray-700 uppercase bg-orange-200">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
                                         No
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Peryataan
+                                        Pernyataan
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Nilai Indeks
@@ -63,7 +63,7 @@
                                     $no = 1;
                                 @endphp
                                 @foreach ($kuesioner as $key => $item)
-                                    <tr>
+                                    <tr class="bg-orange-100">
                                         <th colspan="4" class="w-full py-2 text-lg text-center">{{ $key }}
                                         </th>
                                     </tr>
@@ -124,13 +124,13 @@
                     </p>
                     <div class="relative mb-5 overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-500 ">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <thead class="text-xs text-gray-700 uppercase bg-orange-200">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
                                         No
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Variable
+                                        Variabel
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Median Indeks (%)
@@ -192,7 +192,7 @@
                         <p class="mb-2 text-2xl font-semibold text-gray-900">
                             Hasil Demografi
                         </p>
-                        <div class="flex items-center gap-4 p-4">
+                        {{-- <div class="flex items-center gap-4 p-4">
                             <button
                                 class="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center flex items-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -214,13 +214,13 @@
 
                                 Chart
                             </button>
-                        </div>
+                        </div> --}}
                     </div>
                     <hr class="py-2">
 
                     <div class="relative overflow-x-auto">
                         <table class="w-full text-sm text-left text-gray-900 ">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                            <thead class="text-xs text-gray-700 uppercase bg-orange-200">
                                 <tr>
                                     <th scope="col" class="px-6 py-3">
                                         No
@@ -245,7 +245,6 @@
                                 @endphp
                                 @foreach ($demografi as $key => $items)
                                     @foreach ($items as $item)
-                                        {{-- @dump($item->total) --}}
                                         <tr>
                                             <td class="px-6 py-4">{{ $nodemog++ }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap">{{ $item->question }}</td>
@@ -271,57 +270,51 @@
                         {{-- <canvas id="chart5" width="400" height="200"></canvas> --}}
                     </div>
 
-
-                    <div class="flex items-center justify-between mt-5">
-                        <p class="mb-2 text-2xl font-semibold text-gray-900">
+                    <div class="p-4 mt-20 border-2 border-orange-400 rounded-lg">
+                        <p class="px-4 mb-2 text-2xl font-bold text-gray-900">
                             Kesimpulan
                         </p>
-                        <div class="flex items-center gap-4 p-4">
-                            {{-- <button
-                                class="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                                </svg>
-                                Cetak Pdf
-                            </button> --}}
-                        </div>
+                        <p class="px-4 py-2">
+                            Berdasarkan hasil analisis kesiapan adopsi teknologi kecerdasan buatan, menunjukkan bahwa
+                            Mahasiswa Komputer Universitas Putra Indonesia "YPTK" Padang
+                            <span class="font-bold">
+                                @switch(round($medianAll, 2))
+                                    @case(round($medianAll, 2) >= 0 && round($medianAll, 2) < 20)
+                                        Sangat Tidak Siap
+                                    @break
+
+                                    @case(round($medianAll, 2) >= 20 && round($medianAll, 2) < 40)
+                                        Tidak Siap
+                                    @break
+
+                                    @case(round($medianAll, 2) >= 40 && round($medianAll, 2) < 60)
+                                        Netral
+                                    @break
+
+                                    @case(round($medianAll, 2) >= 60 && round($medianAll, 2) < 80)
+                                        Siap
+                                    @break
+
+                                    @case(round($medianAll, 2) >= 80 && round($medianAll, 2) < 100)
+                                        Sangat Siap
+                                    @break
+
+                                    @default
+                                @endswitch
+                            </span> dengan Hasil Indeks:
+                            <span class="font-semibold">
+                                {{ round($medianAll, 2) }}%
+                            </span>
+                            untuk
+                            mengadopsi teknologi
+                            kecerdasan buatan.
+                        </p>
+                        <p class="px-4">
+                            Tools AI yang sering digunakan oleh Mahasiswa yaitu :
+                            <span class="font-semibold">{{ $text }}</span>
+                        </p>
                     </div>
-                    @dump(round($medianAll, 2))
-                    <div class="p-4">
-                        Berdasarkan hasil analisis kesiapan adopsi teknologi kecerdasan buatan, menunjukkan bahwa
-                        Mahasiswa Komputer Universitas Putra Indonesia "YPTK" Padang
-                        <span class="font-semibold">
-                            @switch(round($medianAll, 2))
-                                @case(round($medianAll, 2) >= 0 && round($medianAll, 2) < 20)
-                                    Sangat Tidak Siap
-                                @break
 
-                                @case(round($medianAll, 2) >= 20 && round($medianAll, 2) < 40)
-                                    Tidak Siap
-                                @break
-
-                                @case(round($medianAll, 2) >= 40 && round($medianAll, 2) < 60)
-                                    Netral
-                                @break
-
-                                @case(round($medianAll, 2) >= 60 && round($medianAll, 2) < 80)
-                                    Siap
-                                @break
-
-                                @case(round($medianAll, 2) >= 80 && round($medianAll, 2) < 100)
-                                    Sangat Siap
-                                @break
-
-                                @default
-                            @endswitch
-                        </span> dengan Hasil Indeks: <span class=""></span> {{ round($medianAll, 2) }} untuk
-                        mengadopsi teknologi
-                        kecerdasan buatan.
-                        Tools AI yang sering digunakan oleh Mahasiswa yaitu :
-                        Chatgpt, humata,dll
-                    </div>
                 </div>
 
 
@@ -332,7 +325,6 @@
 
     <script>
         const data = @json($chartDemografi);
-        console.log(data)
 
         // Helper function to generate chart
         function createChart(ctx, chartType, chartData, chartOptions) {

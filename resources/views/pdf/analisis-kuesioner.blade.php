@@ -159,6 +159,52 @@
             </tbody>
         </table>
     </div>
+
+    @pageBreak
+    <div class="p-4 mt-8 border-2 border-orange-400 rounded-lg">
+        <p class="px-4 mb-2 text-2xl font-bold text-gray-900">
+            Kesimpulan
+        </p>
+        <p class="px-4 py-2">
+            Berdasarkan hasil analisis kesiapan adopsi teknologi kecerdasan buatan, menunjukkan bahwa
+            Mahasiswa Komputer Universitas Putra Indonesia "YPTK" Padang
+            <span class="font-bold">
+                @switch(round($medianAll, 2))
+                    @case(round($medianAll, 2) >= 0 && round($medianAll, 2) < 20)
+                        Sangat Tidak Siap
+                    @break
+
+                    @case(round($medianAll, 2) >= 20 && round($medianAll, 2) < 40)
+                        Tidak Siap
+                    @break
+
+                    @case(round($medianAll, 2) >= 40 && round($medianAll, 2) < 60)
+                        Netral
+                    @break
+
+                    @case(round($medianAll, 2) >= 60 && round($medianAll, 2) < 80)
+                        Siap
+                    @break
+
+                    @case(round($medianAll, 2) >= 80 && round($medianAll, 2) < 100)
+                        Sangat Siap
+                    @break
+
+                    @default
+                @endswitch
+            </span> dengan Hasil Indeks:
+            <span class="font-semibold">
+                {{ round($medianAll, 2) }}%
+            </span>
+            untuk
+            mengadopsi teknologi
+            kecerdasan buatan.
+        </p>
+        <p class="px-4">
+            Tools AI yang sering digunakan oleh Mahasiswa yaitu :
+            <span class="font-semibold">{{ $text }}</span>
+        </p>
+    </div>
 </body>
 
 </html>

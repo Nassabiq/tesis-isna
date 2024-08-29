@@ -8,7 +8,7 @@
 
     <title>
         Aplikasi Analisis Kesiapan Adopsi Teknologi Artificial Intelligence Mahasiswa Komputer
-        Universitas Putera
+        Universitas Putra
         Indonesia “YPTK” Padang
     </title>
 
@@ -28,6 +28,12 @@
                 <x-application-logo class="w-full h-40 text-gray-500 fill-current" />
             </a>
         </div>
+        <p class="text-center">
+            Aplikasi Analisis Kesiapan Adopsi Teknologi Artificial Intelligence Mahasiswa Komputer
+        </p>
+        <p class="text-2xl font-semibold text-center">
+            Universitas Putra Indonesia “YPTK” Padang
+        </p>
 
         <div class="w-full px-6 py-4 mt-6 overflow-hidden bg-white shadow-md sm:max-w-md sm:rounded-lg">
             {{ $slot }}

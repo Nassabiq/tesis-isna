@@ -17,7 +17,7 @@
                             @foreach ($forms as $form)
                                 <div id="accordion-collapse" x-data="{ open: true }">
                                     <button type="button" @click="open = !open"
-                                        class="flex items-center justify-between w-full gap-3 p-5 font-medium text-gray-500 border border-gray-200 rtl:text-right focus:ring-4 focus:ring-gray-200 ">
+                                        class="flex items-center justify-between w-full gap-3 p-5 font-medium font-semibold text-gray-900 bg-orange-200 border border-gray-200 rtl:text-right focus:ring-4 focus:ring-gray-200">
                                         <span>{{ $form->variable_nama }}</span>
                                         <svg x-bind:class="{ 'rotate-180': open }"
                                             class="w-3 h-3 transition-transform duration-200" aria-hidden="true"

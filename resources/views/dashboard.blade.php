@@ -23,10 +23,11 @@
 
                     <form class="w-full md:w-1/2" action="{{ route('demografi.post') }}" method="post">
                         @csrf
-                        <p class="mb-2 text-2xl font-semibold text-gray-900">
-                            Data Responden
-                        </p>
-                        <hr class="py-2">
+                        <div class="px-4 py-2 mb-6 border-2 border-orange-400 rounded-lg">
+                            <p class="text-2xl font-semibold text-gray-900">
+                                Data Responden
+                            </p>
+                        </div>
 
                         <div class="mb-5">
                             <label for="nama_mahasiswa" class="block mb-2 text-sm font-medium text-gray-900 ">
@@ -87,11 +88,11 @@
                             @enderror
                         </div>
 
-                        <p class="mb-2 text-2xl font-semibold text-gray-900">
-                            Data Demografi
-                        </p>
-
-                        <hr class="py-2">
+                        <div class="px-4 py-2 mb-6 border-2 border-orange-400 rounded-lg">
+                            <p class="text-2xl font-semibold text-gray-900">
+                                Data Demografi
+                            </p>
+                        </div>
 
                         @foreach ($demografi as $key => $item)
                             {{-- @dump($item) --}}

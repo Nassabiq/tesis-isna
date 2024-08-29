@@ -34,8 +34,6 @@ class KuesionerController extends Controller
             'kuesioner_answers' => 'required',
         ]);
 
-        // dd($request->all());
-
         $kuesioner = Kuesioner::create([
             'user_id' => $user_id,
             'created_by' => $user_id,
@@ -55,7 +53,10 @@ class KuesionerController extends Controller
     }
     public function results()
     {
-        $demografi = $this->hasilDemografi();
+        $data_demografi = $this->hasilDemografi();
+        $demografi = $data_demografi['result'];
+        $text = $data_demografi['text'];
+
         $chartDemografi = $this->chartDemografi();
 
         $kuesioner = [];
@@ -71,7 +72,7 @@ class KuesionerController extends Controller
         $medianAll = $this->medianAll();
         // $data_detail = $this->valueKuesioner();
 
-        return view('kuesioner.hasil-kuesioner', compact('demografi', 'kuesioner', 'median', 'chartDemografi', 'medianAll'));
+        return view('kuesioner.hasil-kuesioner', compact('demografi', 'kuesioner', 'median', 'chartDemografi', 'medianAll', 'text'));
     }
 
 
@@ -116,7 +117,7 @@ class KuesionerController extends Controller
 
         $chartData = [];
 
-        foreach ($demografi as $question => $responses) {;
+        foreach ($demografi['result'] as $question => $responses) {;
 
             $chartData['labels'][] = $question;
             foreach ($responses as $key => $response) {
@@ -133,6 +134,9 @@ class KuesionerController extends Controller
 
         $result = [];
         $textConcatenation = [];
+
+        $text_result = "";
+
         foreach ($demografi as $value) {
 
             // Check if form_type is text
@@ -160,9 +164,13 @@ class KuesionerController extends Controller
 
         foreach ($textConcatenation as $key => $value) {
             $value->value_answer = $this->filteringText($value->value_answer);
+            $text_result = $this->filteringText($value->value_answer);
             $result[$key][] = $value;
         }
-        return $result;
+        return [
+            "result" => $result,
+            "text" => $text_result,
+        ];
     }
 
     public function filteringText($text)

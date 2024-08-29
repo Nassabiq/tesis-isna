@@ -32,10 +32,16 @@ class PDFController extends Controller
         }
 
         $median = $this->medianKuesioner();
+        $medianAll = $this->medianAll();
+
+        $data_demografi = $this->hasilDemografi();
+        $text = $data_demografi['text'];
 
         $pdf = Pdf::view('pdf.analisis-kuesioner', [
             'kuesioner' => $hasilkuesioner,
             'median' => $median,
+            'medianAll' => $medianAll,
+            'text' => $text
         ])->format('a4');
 
         return $pdf->save('analisis-kuesioner.pdf');
@@ -100,6 +106,14 @@ class PDFController extends Controller
         return $kuesioner;
     }
 
+    public function medianAll()
+    {
+        $data = $this->medianKuesioner();
+        $res = $this->calculateMedian($data);
+
+        return $res;
+    }
+
     public function medianKuesioner()
     {
         $data = $this->hasilKuesioner();
@@ -148,5 +162,108 @@ class PDFController extends Controller
             // If even, return the average of the two middle elements
             return ($array[$middle - 1] + $array[$middle]) / 2;
         }
+    }
+
+    public function demografi()
+    {
+        $demografi = DB::select(
+            "WITH counted_data AS (
+                SELECT 
+                    demografi.id, 
+                    demografi.question, 
+                    demografi.form_type,
+                    user_demografi.value_answer, 
+                    COUNT(user_demografi.value_answer) as jumlah
+                FROM demografi
+                JOIN user_demografi ON user_demografi.demografi_id = demografi.id
+                GROUP BY user_demografi.value_answer, demografi.question, demografi.id
+            )
+
+            SELECT 
+                counted_data.id, 
+                counted_data.question, 
+                counted_data.form_type,
+                counted_data.value_answer, 
+                counted_data.jumlah,
+                total_summary.total
+            FROM counted_data
+            JOIN (
+                SELECT id, SUM(jumlah) as total
+                FROM counted_data
+                GROUP BY id
+            ) as total_summary
+            ON counted_data.id = total_summary.id
+            ORDER BY counted_data.id ASC;"
+        );
+
+        return $demografi;
+    }
+
+    public function hasilDemografi()
+    {
+        $demografi = $this->demografi();
+
+        $result = [];
+        $textConcatenation = [];
+
+        $text_result = "";
+
+        foreach ($demografi as $value) {
+
+            // Check if form_type is text
+            if ($value->form_type === 'text') {
+                // Concatenate value_answer for each id
+                if (!isset($textConcatenation[$value->question])) {
+                    $textConcatenation[$value->question] = (object)[
+                        'id' => $value->id,
+                        'question' => $value->question,
+                        'form_type' => $value->form_type,
+                        'value_answer' => $value->value_answer,
+                        'jumlah' => $value->jumlah,
+                        'total' => $value->total,
+                    ];
+                } else {
+                    if ($textConcatenation[$value->question]->value_answer !== $value->value_answer) {
+                        $textConcatenation[$value->question]->value_answer .= ', ' . $value->value_answer;
+                        $textConcatenation[$value->question]->jumlah += $value->jumlah;
+                    }
+                }
+            } else {
+                $result[$value->question][] = $value;
+            }
+        }
+
+        foreach ($textConcatenation as $key => $value) {
+            $value->value_answer = $this->filteringText($value->value_answer);
+            $text_result = $this->filteringText($value->value_answer);
+            $result[$key][] = $value;
+        }
+        return [
+            "result" => $result,
+            "text" => $text_result,
+        ];
+    }
+
+    public function filteringText($text)
+    {
+        // Ganti kata "dan", "&", "dan sebagainya" dengan koma
+        $replaceWords = array('dan', '&', 'sebagainya');
+        $text = str_replace($replaceWords, ',', $text);
+
+        $text = strtolower($text);
+        $text = preg_replace('/\s+/', ' ', $text);
+        $text = str_replace('.,', ',', $text);
+        $text = str_replace('.', '', $text);
+        $text = trim($text);
+
+        $words = explode(',', $text);
+        $words = array_map('trim', $words);
+
+        $uniqueWords = array_count_values($words);
+
+        $uniqueWordsList = array_keys($uniqueWords);
+        $result = implode(', ', $uniqueWordsList);
+
+        return $result;
     }
 }
