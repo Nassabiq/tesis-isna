@@ -190,7 +190,7 @@
 
                     <div class="flex items-center justify-between">
                         <p class="mb-2 text-2xl font-semibold text-gray-900">
-                            Hasil Demografi
+                            Hasil Analisis Demografi
                         </p>
                         {{-- <div class="flex items-center gap-4 p-4">
                             <button
