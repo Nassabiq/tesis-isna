@@ -32,6 +32,16 @@
                             {{ __('Lihat Hasil Kuesioner') }}
                         </x-nav-link>
                     </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('master-demografi')" :active="request()->routeIs('master-demografi')">
+                            {{ __('Add Master Demografi') }}
+                        </x-nav-link>
+                    </div>
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        <x-nav-link :href="route('master-kuesioner')" :active="request()->routeIs('master-kuesioner')">
+                            {{ __('Add Master Kuesioner') }}
+                        </x-nav-link>
+                    </div>
                 @endif
             </div>
 
