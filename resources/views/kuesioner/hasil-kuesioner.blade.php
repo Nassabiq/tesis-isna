@@ -391,6 +391,15 @@
             chartOptions('Pengalaman menggunakan Artificial Intelligence (AI)')
         );
 
+        function displayChartImage(elementId, chartType, chartData, chartOptions, imgElementId) {
+            const ctx = document.getElementById(elementId).getContext('2d');
+            const imageBase64 = createChart(ctx, chartType, chartData, chartOptions);
+
+            // Create an img element or use an existing one to display the chart image
+            const imgElement = document.getElementById(imgElementId);
+            imgElement.src = imageBase64;
+        }
+
         // Chart 2: Lama Penggunaan Teknologi Kecerdasan Buatan
         createChart(
             document.getElementById('chart2').getContext('2d'),

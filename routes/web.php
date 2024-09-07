@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/generate-pdf-analisis', [PDFController::class, 'generatePDFAnalisis'])->name('generate-pdf-analisis');
     Route::get('/generate-pdf-rekap', [PDFController::class, 'generatePDFRekap'])->name('generate-pdf-rekap');
+    Route::get('/generate-base64-chart', [PDFController::class, 'generateBase64Chart'])->name('generate-base64-chart');
 });
 
 require __DIR__ . '/auth.php';

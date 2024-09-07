@@ -13,7 +13,9 @@
         <p class="pr-4 text-xs">Aplikasi Analisis Kesiapan Teknologi Artificial Intelligence</p>
     </div>
 
-    <div class="flex flex-col justify-center px-12 mt-8">
+    <div class="flex flex-col items-center justify-center px-12 mt-8">
+        <img src="data:image/png; base64, {{ base64_encode(file_get_contents(public_path('storage/logo-univ.png'))) }}"
+            class="w-48 h-32 text-center">
         {{-- <img class="block w-auto h-16 text-gray-800 fill-current" src="{{ asset('storage/logo-univ.png') }}"
             alt="logo"> --}}
         <p class="text-3xl font-semibold text-center">
@@ -185,29 +187,6 @@
             <p class="mb-2 text-2xl font-semibold text-gray-900">
                 Hasil Analisis Demografi
             </p>
-            {{-- <div class="flex items-center gap-4 p-4">
-                            <button
-                                class="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5" />
-                                </svg>
-                                Table
-                            </button>
-                            <button
-                                class="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
-                                </svg>
-
-                                Chart
-                            </button>
-                        </div> --}}
         </div>
         <hr class="py-2">
 
@@ -255,8 +234,10 @@
             </table>
         </div>
 
-        <div class="flex flex-wrap items-center justify-between gap-4 space-y-4">
-            <canvas id="chart1" width="500" height="250"></canvas>
+        <div class="flex flex-col items-center justify-between gap-4 space-y-4">
+            <canvas id="chart1" width="400" height="400"></canvas>
+            {{-- <img src="data:image/png; base64, {{ base64_encode(file_get_contents(public_path('storage/logo-univ.png'))) }}"
+            style="height: 150px;"> --}}
             <img id="chartImage1" alt="Chart Image" />
             <canvas id="chart2" width="500" height="250"></canvas>
             <canvas id="chart3" width="500" height="250"></canvas>
@@ -364,7 +345,8 @@
         // Create all doughnut charts with titles
         const chartOptions = (title) => ({
             responsive: false,
-            maintainAspectRatio: false,
+            maintainAspectRatio: true,
+            aspectRatio: 1, // This ensures the chart is square
             plugins: {
                 title: {
                     display: true,
@@ -387,7 +369,7 @@
 
             // Create an img element or use an existing one to display the chart image
             const imgElement = document.getElementById(imgElementId);
-            imgElement.src = imageBase64;
+            imgElement.src = "data:image/png; base64, " + imageBase64;
         }
 
         displayChartImage(
@@ -430,13 +412,6 @@
             prepareData(data.data["Kendala Penggunaan Teknologi Kecerdasan Buatan"]),
             chartOptions('Kendala Penggunaan Teknologi Kecerdasan Buatan')
         );
-
-
-        // Chart 5: Teknologi AI yang sering digunakan
-        // createChart(document.getElementById('chart5').getContext('2d'), 'radar', prepareData(data.data[
-        //     "Teknologi AI yang sering digunakan"]), {
-        //     responsive: true
-        // });
     </script>
 </body>
 
