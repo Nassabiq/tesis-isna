@@ -234,15 +234,29 @@
             </table>
         </div>
 
-        <div class="flex flex-col items-center justify-between gap-4 space-y-4">
-            <canvas id="chart1" width="400" height="400"></canvas>
-            {{-- <img src="data:image/png; base64, {{ base64_encode(file_get_contents(public_path('storage/logo-univ.png'))) }}"
-            style="height: 150px;"> --}}
-            <img id="chartImage1" alt="Chart Image" />
-            <canvas id="chart2" width="500" height="250"></canvas>
+        @pageBreak
+        <div class="flex items-center justify-between">
+            <p class="mb-2 text-2xl font-semibold text-gray-900">
+                Chart Hasil Analisis Demografi
+            </p>
+        </div>
+        <hr class="py-2">
+
+        <div class="grid grid-cols-2 gap-4 space-y-4">
+            {{-- <canvas id="chart1" width="400" height="400"></canvas> --}}
+            <img src="data:image/png; base64, {{ base64_encode(file_get_contents(public_path('storage/chart_images/chart1.png'))) }}"
+                width="500" height="250">
+            <img src="data:image/png; base64, {{ base64_encode(file_get_contents(public_path('storage/chart_images/chart2.png'))) }}"
+                width="500" height="250">
+            <img src="data:image/png; base64, {{ base64_encode(file_get_contents(public_path('storage/chart_images/chart3.png'))) }}"
+                width="500" height="250">
+            <img src="data:image/png; base64, {{ base64_encode(file_get_contents(public_path('storage/chart_images/chart4.png'))) }}"
+                width="500" height="250">
+            {{-- <img id="chartImage1" alt="Chart Image" /> --}}
+            {{-- <canvas id="chart2" width="500" height="250"></canvas>
             <canvas id="chart3" width="500" height="250"></canvas>
             <canvas id="chart4" width="500" height="250"></canvas>
-            {{-- <canvas id="chart5" width="400" height="200"></canvas> --}}
+            <canvas id="chart5" width="400" height="200"></canvas> --}}
         </div>
 
         @pageBreak
@@ -299,120 +313,7 @@
             </div>
         </div>
     </div>
-    <script>
-        const data = @json($chartDemografi);
-
-        // Helper function to generate chart
-        function createChart(ctx, chartType, chartData, chartOptions) {
-            let image = new Chart(ctx, {
-                type: chartType,
-                data: chartData,
-                options: chartOptions
-            });
-
-            return image.toBase64Image()
-        }
-
-        // Function to generate random colors
-        function getRandomColor() {
-            const letters = '0123456789ABCDEF';
-            let color = '#';
-            for (let i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
-
-        // Function to generate colors for each value
-        function generateColors(dataArray) {
-            return dataArray.map(() => getRandomColor());
-        }
-
-        // Data preparation
-        function prepareData(dataArray) {
-            return {
-                labels: dataArray.map(item => item[0]),
-                datasets: [{
-                    label: 'Data',
-                    data: dataArray.map(item => item[1]),
-                    backgroundColor: generateColors(dataArray), // Generate different colors
-                    borderColor: generateColors(dataArray),
-                    borderWidth: 1
-                }]
-            };
-        }
-
-        // Create all doughnut charts with titles
-        const chartOptions = (title) => ({
-            responsive: false,
-            maintainAspectRatio: true,
-            aspectRatio: 1, // This ensures the chart is square
-            plugins: {
-                title: {
-                    display: true,
-                    text: title,
-                    font: {
-                        size: 14
-                    },
-                    padding: {
-                        top: 5,
-                        bottom: 5
-                    }
-                }
-            }
-        });
-
-        // Create and display chart as image
-        function displayChartImage(elementId, chartType, chartData, chartOptions, imgElementId) {
-            const ctx = document.getElementById(elementId).getContext('2d');
-            const imageBase64 = createChart(ctx, chartType, chartData, chartOptions);
-
-            // Create an img element or use an existing one to display the chart image
-            const imgElement = document.getElementById(imgElementId);
-            imgElement.src = "data:image/png; base64, " + imageBase64;
-        }
-
-        displayChartImage(
-            'chart1',
-            'doughnut',
-            prepareData(data.data["Pengalaman menggunakan Artificial Intelligence (AI)"]),
-            chartOptions('Pengalaman menggunakan Artificial Intelligence (AI)'),
-            'chartImage1' // ID of the img element where the image will be displayed
-        );
-
-        // Chart 1: Pengalaman menggunakan Artificial Intelligence (AI)
-        // createChart(
-        //     document.getElementById('chart1').getContext('2d'),
-        //     'doughnut',
-        //     prepareData(data.data["Pengalaman menggunakan Artificial Intelligence (AI)"]),
-        //     chartOptions('Pengalaman menggunakan Artificial Intelligence (AI)'),
-        //     'chartImage1'
-        // );
-
-        // Chart 2: Lama Penggunaan Teknologi Kecerdasan Buatan
-        createChart(
-            document.getElementById('chart2').getContext('2d'),
-            'doughnut',
-            prepareData(data.data["Lama Penggunaan Teknologi Kecerdasan Buatan"]),
-            chartOptions('Lama Penggunaan Teknologi Kecerdasan Buatan')
-        );
-
-        // Chart 3: Intensitas Penggunaan Teknologi Kecerdasan Buatan
-        createChart(
-            document.getElementById('chart3').getContext('2d'),
-            'doughnut',
-            prepareData(data.data["Intensitas Penggunaan Teknologi Kecerdasan Buatan"]),
-            chartOptions('Intensitas Penggunaan Teknologi Kecerdasan Buatan')
-        );
-
-        // Chart 4: Kendala Penggunaan Teknologi Kecerdasan Buatan
-        createChart(
-            document.getElementById('chart4').getContext('2d'),
-            'doughnut',
-            prepareData(data.data["Kendala Penggunaan Teknologi Kecerdasan Buatan"]),
-            chartOptions('Kendala Penggunaan Teknologi Kecerdasan Buatan')
-        );
-    </script>
+    <script></script>
 </body>
 
 </html>

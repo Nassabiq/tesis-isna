@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Kuesioner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Spatie\LaravelPdf\Facades\Pdf;
 
 class PDFController extends Controller
@@ -53,40 +55,28 @@ class PDFController extends Controller
         return $pdf->save('analisis-kuesioner.pdf');
     }
 
+
     public function generateBase64Chart(Request $request)
     {
-        $chartImage1 = $request->input('chartImage1');
-        $chartImage2 = $request->input('chartImage2');
-        $chartImage3 = $request->input('chartImage3');
-        $chartImage4 = $request->input('chartImage4');
-        $chartImage5 = $request->input('chartImage5');
+        $chartImages = $request->all();
+        $no = 1;
+        foreach ($chartImages as $chartName => $imageData) {
+            Log::info($imageData);
+            $imageData = explode(',', $imageData)[1];  // Hapus bagian awal base64 (prefix)
+            $image = base64_decode($imageData);
 
-        // Dekode gambar base64 dan simpan
-        $imagePath1 = $this->saveBase64Image($chartImage1, 'chart1.png');
-        $imagePath2 = $this->saveBase64Image($chartImage2, 'chart2.png');
-        $imagePath3 = $this->saveBase64Image($chartImage3, 'chart3.png');
-        $imagePath4 = $this->saveBase64Image($chartImage4, 'chart4.png');
-        $imagePath5 = $this->saveBase64Image($chartImage5, 'chart5.png');
+            if ($image === false) {
+                return response()->json(['error' => 'Gagal mendekode base64'], 400);
+            }
 
-        $imagePaths = [
-            $imagePath1,
-            $imagePath2,
-            $imagePath3,
-            $imagePath4,
-            $imagePath5,
-        ];
+            // Simpan di storage/public/charts dengan nama unik
+            $imagePath = storage_path('app/public/chart_images/' . 'chart' . $no . '.png');
+            $no++;
 
-        return $imagePaths;
-        // return view('generate-base64-chart', ['chartImagePaths' => $imagePaths]);
-    }
+            file_put_contents($imagePath, $image);
+        }
 
-    private function saveBase64Image($base64Image, $fileName)
-    {
-        $image = str_replace('data:image/png;base64,', '', $base64Image);
-        $image = str_replace(' ', '+', $image);
-        $filePath = 'public/chart_images/' . $fileName;
-        Storage::put($filePath, base64_decode($image));
-        return Storage::url($filePath);
+        return response()->json(['success' => true]);
     }
 
     public function generatePDFRekap()

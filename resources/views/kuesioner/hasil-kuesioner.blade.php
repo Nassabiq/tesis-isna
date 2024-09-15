@@ -192,29 +192,7 @@
                         <p class="mb-2 text-2xl font-semibold text-gray-900">
                             Hasil Analisis Demografi
                         </p>
-                        {{-- <div class="flex items-center gap-4 p-4">
-                            <button
-                                class="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5" />
-                                </svg>
-                                Table
-                            </button>
-                            <button
-                                class="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="size-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
-                                </svg>
 
-                                Chart
-                            </button>
-                        </div> --}}
                     </div>
                     <hr class="py-2">
 
@@ -270,6 +248,23 @@
                         {{-- <canvas id="chart5" width="400" height="200"></canvas> --}}
                     </div>
 
+                    <div style="display:none;">
+                        <canvas id="chartimage1"></canvas>
+                        <canvas id="chartimage2"></canvas>
+                        <canvas id="chartimage3"></canvas>
+                        <canvas id="chartimage4"></canvas>
+                        <canvas id="chartimage5"></canvas>
+                    </div>
+
+                    <!-- Form untuk mengirim gambar base64 ke server -->
+                    {{-- <form id="chartForm" action="{{ route('generate-base64-chart') }}" method="POST">
+                        @csrf
+                        <input type="hidden" id="chartImageInput1" name="chartImage1">
+                        <input type="hidden" id="chartImageInput2" name="chartImage2">
+                        <input type="hidden" id="chartImageInput3" name="chartImage3">
+                        <input type="hidden" id="chartImageInput4" name="chartImage4">
+                        <input type="hidden" id="chartImageInput5" name="chartImage5">
+                    </form> --}}
                     <div class="p-4 mt-20 border-2 border-orange-400 rounded-lg">
                         <p class="px-4 mb-2 text-2xl font-bold text-gray-900">
                             Kesimpulan
@@ -325,6 +320,7 @@
 
     <script>
         const data = @json($chartDemografi);
+        let chartImages = {};
 
         // Helper function to generate chart
         function createChart(ctx, chartType, chartData, chartOptions) {
@@ -391,15 +387,6 @@
             chartOptions('Pengalaman menggunakan Artificial Intelligence (AI)')
         );
 
-        function displayChartImage(elementId, chartType, chartData, chartOptions, imgElementId) {
-            const ctx = document.getElementById(elementId).getContext('2d');
-            const imageBase64 = createChart(ctx, chartType, chartData, chartOptions);
-
-            // Create an img element or use an existing one to display the chart image
-            const imgElement = document.getElementById(imgElementId);
-            imgElement.src = imageBase64;
-        }
-
         // Chart 2: Lama Penggunaan Teknologi Kecerdasan Buatan
         createChart(
             document.getElementById('chart2').getContext('2d'),
@@ -423,6 +410,89 @@
             prepareData(data.data["Kendala Penggunaan Teknologi Kecerdasan Buatan"]),
             chartOptions('Kendala Penggunaan Teknologi Kecerdasan Buatan')
         );
+
+
+        // Helper function to generate chart and return base64 image
+        async function createChartImage(ctx, chartType, chartData, chartOptions) {
+            const chart = new Chart(ctx, {
+                type: chartType,
+                data: chartData,
+                options: chartOptions
+            });
+
+            // Return base64 image string
+            // return await chart.toBase64Image();
+            return new Promise((resolve) => {
+                chart.options.animation.onComplete = function() {
+                    const chartImage = chart.toBase64Image();
+                    resolve(chartImage); // Return the base64 image when chart rendering is complete
+                };
+            });
+        }
+
+        function sendChartsToServer(chartImages) {
+            fetch('/generate-base64-chart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content') // Laravel CSRF token
+                    },
+                    body: JSON.stringify(chartImages) // Send chart images as JSON
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('All chart images saved successfully!');
+                    } else {
+                        console.error('Error saving chart images.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Async function to prepare and create all charts, then send to the server
+        async function generateAndSendCharts() {
+            const chartImages = {};
+
+            // Generate chart images asynchronously and store them in chartImages object
+            chartImages['PengalamanAI'] = await createChartImage(
+                document.getElementById('chartimage1').getContext('2d'),
+                'doughnut',
+                prepareData(data.data["Pengalaman menggunakan Artificial Intelligence (AI)"]),
+                chartOptions('Pengalaman menggunakan Artificial Intelligence (AI)')
+            );
+
+            chartImages['LamaPenggunaanAI'] = await createChartImage(
+                document.getElementById('chartimage2').getContext('2d'),
+                'doughnut',
+                prepareData(data.data["Lama Penggunaan Teknologi Kecerdasan Buatan"]),
+                chartOptions('Lama Penggunaan Teknologi Kecerdasan Buatan')
+            );
+
+            chartImages['IntensitasPenggunaanAI'] = await createChartImage(
+                document.getElementById('chartimage3').getContext('2d'),
+                'doughnut',
+                prepareData(data.data["Intensitas Penggunaan Teknologi Kecerdasan Buatan"]),
+                chartOptions('Intensitas Penggunaan Teknologi Kecerdasan Buatan')
+            );
+
+            chartImages['KendalaPenggunaanAI'] = await createChartImage(
+                document.getElementById('chartimage4').getContext('2d'),
+                'doughnut',
+                prepareData(data.data["Kendala Penggunaan Teknologi Kecerdasan Buatan"]),
+                chartOptions('Kendala Penggunaan Teknologi Kecerdasan Buatan')
+            );
+
+            // Send all charts as base64 images to the server
+            console.log(chartImages);
+            sendChartsToServer(chartImages);
+        }
+
+        // Call the async function to generate and send charts
+        generateAndSendCharts();
+
+        // window.onload = generateChartImages(data);
 
 
         // Chart 5: Teknologi AI yang sering digunakan
